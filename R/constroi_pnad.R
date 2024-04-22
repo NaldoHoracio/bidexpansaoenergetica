@@ -24,6 +24,20 @@
 #' @importFrom magrittr "%>%"
 #' @importFrom PNADcIBGE read_pnadc pnadc_labeller
 #' @export
+# Check the operating system
+if (Sys.info()["sysname"] == "Windows") 
+{
+  Sys.setlocale("LC_CTYPE", "Portuguese_Brazil.UTF-8")  # Change to the appropriate locale
+  
+} else if (Sys.info()["sysname"] == "Darwin" || Sys.info()["sysname"] == "Linux") 
+{
+  Sys.setlocale(category="LC_CTYPE", locale="pt_BR.UTF-8")
+} else 
+{
+  print("Unsupported operating system.")
+}
+
+
 constroi_pnad <- function(diretorio, ano){
   #faz um listfiles e procura o arquivo da visita 1
   pnadc_entrevista_1 <- PNADcIBGE::read_pnadc(

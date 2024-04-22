@@ -10,11 +10,26 @@
 #' @return Os arquivos são baixados e salvos no diretório especificado, sem retorno explícito na função.
 #'
 #' @examples
-#' baixa_visita_5_pnadc(ano = 2016, destination_dir = "data-raw/pnadc/2016/")
+#' baixa_visita_5_pnadc(ano = 2016, destination_dir = "data/pnadc/2016/")
 #'
 #' @export
+
+# Check the operating system
+if (Sys.info()["sysname"] == "Windows") 
+{
+  Sys.setlocale("LC_CTYPE", "Portuguese_Brazil.UTF-8")  # Change to the appropriate locale
+  
+} else if (Sys.info()["sysname"] == "Darwin" || Sys.info()["sysname"] == "Linux") 
+{
+  Sys.setlocale(category="LC_CTYPE", locale="pt_BR.UTF-8")
+} else 
+{
+  print("Unsupported operating system.")
+}
+
+
 baixa_visita_5_pnadc <- function(ano = 2016,
-                                 destination_dir = "data-raw/pnadc/2016/"){
+                                 destination_dir = "data/pnadc/2016/"){
 
   ## Baixando o Dicionário ---------------------------------------------------
 

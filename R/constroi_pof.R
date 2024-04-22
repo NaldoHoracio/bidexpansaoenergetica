@@ -6,7 +6,7 @@
 #' datasets em uma única tabela.
 #'
 #' @param diretorio O caminho do diretório onde os arquivos de dados da POF estão localizados. Por padrão,
-#' é 'data-raw/POF/2018/'. Espera-se que este diretório contenha subdiretórios e arquivos específicos conforme
+#' é 'data/POF/2018/'. Espera-se que este diretório contenha subdiretórios e arquivos específicos conforme
 #' a estrutura utilizada pela POF para armazenamento de dados e metadados.
 #'
 #' @return Um tibble que representa a tabela única consolidada com os dados da POF, incluindo variáveis selecionadas
@@ -19,7 +19,21 @@
 #' @importFrom magrittr "%>%"
 #' @export
 #'
-constroi_pof <- function(diretorio = 'data-raw/POF/2018/'){
+
+# Check the operating system
+if (Sys.info()["sysname"] == "Windows") 
+{
+  Sys.setlocale("LC_CTYPE", "Portuguese_Brazil.UTF-8")  # Change to the appropriate locale
+  
+} else if (Sys.info()["sysname"] == "Darwin" || Sys.info()["sysname"] == "Linux") 
+{ 
+  Sys.setlocale(category="LC_CTYPE", locale="pt_BR.UTF-8")
+} else 
+{
+  print("Unsupported operating system.")
+}
+
+constroi_pof <- function(diretorio = 'data/POF/2018/'){
 
   # pega os valores únicos indicados em Indicadas no documento
   #Sistematização de Dados Tecendo Conexões
@@ -48,7 +62,7 @@ constroi_pof <- function(diretorio = 'data-raw/POF/2018/'){
                        nome_aba <- .y %>% unique()
 
                        # Lendo o dicionário de variáveis para o arquivo atual
-                       dimensoes_dicionario <- readxl::read_excel('data-raw/POF/2018/dicionario/Dicionários de váriaveis.xls',
+                       dimensoes_dicionario <- readxl::read_excel('data/POF/2018/dicionario/Dicionários de váriaveis.xls',
                                                                   sheet = nome_aba, skip = 3) %>%
                          purrr::set_names(
                            c("posicao_inicial", "tamanho", "decimais",
